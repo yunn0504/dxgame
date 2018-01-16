@@ -9,7 +9,6 @@ GraphicsClass::GraphicsClass()
 	m_D3D = 0;
 	m_Camera = 0;
 	m_Model = 0;
-	//m_ColorShader = 0;
 	m_TextureShader = 0;
 	m_Light = 0;
 }
@@ -148,7 +147,7 @@ bool GraphicsClass::Frame(int mouseX,int mouseY)
 
 	
 	// Update the rotation variable each frame.
-	rotation += (float)D3DX_PI * 0.01f;
+	rotation += (float)XM_PI * 0.01f;
 	if (rotation > 360.0f)
 	{
 		rotation -= 360.0f;
@@ -167,9 +166,9 @@ bool GraphicsClass::Frame(int mouseX,int mouseY)
 
 bool GraphicsClass::Render(float rotation)
 {
-	D3DXMATRIX worldMatrix, viewMatrix, projectionMatrix;
+	XMMATRIX worldMatrix, viewMatrix, projectionMatrix;
 	bool result;
-	static D3DXVECTOR3 pos;
+	static XMFLOAT3 pos;
 	static float z = -400.0f;
 	static float x = 400.0f;
 	static float degree = 0.0f;
@@ -190,7 +189,7 @@ bool GraphicsClass::Render(float rotation)
 	m_D3D->GetProjectionMatrix(projectionMatrix);
 
 	// Rotate the world matrix by the rotation value so that the triangle will spin.
-	//D3DXMatrixRotationY(&worldMatrix, rotation);
+	//XMMATRIXRotationY(&worldMatrix, rotation);
 
 	// Put the model vertex and index buffers on the graphics pipeline to prepare them for drawing.
 	m_Model->Render(m_D3D->GetDeviceContext());

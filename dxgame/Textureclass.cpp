@@ -24,7 +24,10 @@ bool TextureClass::Initialize(ID3D11Device* device, WCHAR* filename)
 
 
 	// Load the texture in.
-	result = D3DX11CreateShaderResourceViewFromFile(device, filename, NULL, NULL, &m_texture, NULL);
+	//result = D3DX11CreateShaderResourceViewFromFile(device, filename, NULL, NULL, &m_texture, NULL);
+
+	result = LoadFromWICFile(filename, WIC_FLAGS_NONE, nullptr, m_image);
+	CreateShaderResourceView(device, m_image.GetImages(), m_image.GetImageCount(), m_image.GetMetadata(), &m_texture);
 	if (FAILED(result))
 	{
 		return false;

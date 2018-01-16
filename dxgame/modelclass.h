@@ -9,11 +9,12 @@
 // INCLUDES //
 //////////////
 #include <d3d11.h>
-#include <d3dx10math.h>
+#include <DirectXMath.h>
 #include<iostream>
 #include<fstream>
 #include<vector>
 using namespace std;
+using namespace DirectX;
 
 ///////////////////////
 // MY CLASS INCLUDES //
@@ -29,9 +30,9 @@ class ModelClass
 private:
 	struct VertexType
 	{
-		D3DXVECTOR3 position;
-	    D3DXVECTOR2 texture;
-		D3DXVECTOR3 normal;
+		XMFLOAT3 position;
+	    XMFLOAT2 texture;
+		XMFLOAT3 normal;
 	};
 	struct ModelType
 	{
@@ -53,9 +54,9 @@ private:
 	};
 	struct SkinVertex
 	{
-		D3DXVECTOR3 p;
-		D3DXVECTOR3 n;
-		D3DXVECTOR2 uv;
+		XMFLOAT3 p;
+		XMFLOAT3 n;
+		XMFLOAT2 uv;
 		int index[4];
 		float weight[3];
 	};

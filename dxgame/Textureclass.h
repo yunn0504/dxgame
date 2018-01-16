@@ -11,8 +11,10 @@
 // INCLUDES //
 //////////////
 #include <d3d11.h>
-#include <d3dx11tex.h>
+#include"DirectXTex.h"
+#pragma comment(lib,"DirectxTex.lib")
 
+using namespace DirectX;
 
 ////////////////////////////////////////////////////////////////////////////////
 // Class name: TextureClass
@@ -34,6 +36,7 @@ public:
 private:
 	//This is the private texture resource.
 
+	ScratchImage m_image;
 	ID3D11ShaderResourceView* m_texture;
 };
 

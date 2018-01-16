@@ -8,13 +8,15 @@
 //////////////
 // INCLUDES //
 //////////////
-#include <d3dx10math.h>
-
+#include<DirectXMath.h>
+#include<DirectXPackedVector.h>
+using namespace DirectX;
+using namespace DirectX::PackedVector;
 
 ////////////////////////////////////////////////////////////////////////////////
 // Class name: CameraClass
 ////////////////////////////////////////////////////////////////////////////////
-class CameraClass
+__declspec(align(16)) class CameraClass
 {
 public:
 	CameraClass();
@@ -23,18 +25,26 @@ public:
 
 	void SetPosition(float, float, float);
 	void SetRotation(float, float, float);
-	void SetPosition(D3DXVECTOR3);
-
-	D3DXVECTOR3 GetPosition();
-	D3DXVECTOR3 GetRotation();
+	
+	XMFLOAT3 GetPosition();
+	XMFLOAT3 GetRotation();
 
 	void Render();
-	void GetViewMatrix(D3DXMATRIX&);
+	void GetViewMatrix(XMMATRIX&);
+
+	void* operator new(size_t i)
+	{
+		return _mm_malloc(i, 16);
+	}
+	void operator delete(void* p)
+	{
+		_mm_free(p);
+	}
 
 private:
 	float m_positionX, m_positionY, m_positionZ;
 	float m_rotationX, m_rotationY, m_rotationZ;
-	D3DXMATRIX m_viewMatrix;
+	XMMATRIX m_viewMatrix;
 };
 
 #endif

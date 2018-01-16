@@ -112,18 +112,18 @@ bool ModelClass::InitializeBuffers(ID3D11Device* device)
 
 	for (i = 0; i < m_vertexCount; i++)
 	{
-		vertices[i].position = D3DXVECTOR3
+		vertices[i].position = XMFLOAT3
 		(
 			position1[i].x,
 			position1[i].y,
 			position1[i].z
 		);
-		vertices[i].texture = D3DXVECTOR2
+		vertices[i].texture = XMFLOAT2
 		(
 			texture1[i].u,
 			texture1[i].v
 		);
-		vertices[i].normal = D3DXVECTOR3
+		vertices[i].normal = XMFLOAT3
 		(
 			normal1[i].nx,
 			normal1[i].ny,

@@ -43,32 +43,24 @@ void CameraClass::SetRotation(float x, float y, float z)
 	return;
 }
 
-void CameraClass::SetPosition(D3DXVECTOR3 rot)
+
+XMFLOAT3 CameraClass::GetPosition()
 {
-	m_positionX = rot.x;
-	m_positionY = rot.y;
-	m_positionZ = rot.z;
+	return XMFLOAT3(m_positionX, m_positionY, m_positionZ);
 }
 
 
-D3DXVECTOR3 CameraClass::GetPosition()
+XMFLOAT3 CameraClass::GetRotation()
 {
-	return D3DXVECTOR3(m_positionX, m_positionY, m_positionZ);
-}
-
-
-D3DXVECTOR3 CameraClass::GetRotation()
-{
-	return D3DXVECTOR3(m_rotationX, m_rotationY, m_rotationZ);
+	return XMFLOAT3(m_rotationX, m_rotationY, m_rotationZ);
 }
 
 
 void CameraClass::Render()
 {
-	D3DXVECTOR3 up, position, lookAt;
+	XMFLOAT3 up, position, lookAt;
 	float yaw, pitch, roll;
-	D3DXMATRIX rotationMatrix;
-
+	XMMATRIX rotationMatrix;
 
 	// Setup the vector that points upwards.
 	up.x = 0.0f;
@@ -91,22 +83,25 @@ void CameraClass::Render()
 	roll  = m_rotationZ * 0.0174532925f;
 
 	// Create the rotation matrix from the yaw, pitch, and roll values.
-	D3DXMatrixRotationYawPitchRoll(&rotationMatrix, yaw, pitch, roll);
+	rotationMatrix=XMMatrixRotationRollPitchYaw(pitch, yaw, roll);
 
 	// Transform the lookAt and up vector by the rotation matrix so the view is correctly rotated at the origin.
-	D3DXVec3TransformCoord(&lookAt, &lookAt, &rotationMatrix);
-	D3DXVec3TransformCoord(&up, &up, &rotationMatrix);
+	
+	
+	XMVector3TransformCoord(XMLoadFloat3(&lookAt), rotationMatrix);
+	XMVector3TransformCoord(XMLoadFloat3(&up), rotationMatrix);
 
 	// Translate the rotated camera position to the location of the viewer.
-	lookAt = position + lookAt;
+	
+	XMStoreFloat3(&lookAt, XMVectorAdd(XMLoadFloat3(&position), XMLoadFloat3(&lookAt)));
 
 	// Finally create the view matrix from the three updated vectors.
-	D3DXMatrixLookAtLH(&m_viewMatrix, &position, &lookAt, &up);
+	m_viewMatrix = XMMatrixLookAtLH(XMLoadFloat3(&position), XMLoadFloat3(&lookAt), XMLoadFloat3(&up));
 	return;
 }
 
 
-void CameraClass::GetViewMatrix(D3DXMATRIX& viewMatrix)
+void CameraClass::GetViewMatrix(XMMATRIX& viewMatrix)
 {
 	viewMatrix = m_viewMatrix;
 	return;
